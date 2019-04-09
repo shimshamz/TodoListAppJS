@@ -144,3 +144,17 @@ button.remove:hover i, .remove:focus i {
 button.complete:hover i, .complete:focus i {
     color: #25b99a;
 }
+
+ul.todo#completed:not(:empty) {
+    position: relative;
+    padding-top: 50px;
+}
+
+ul.todo#completed:not(:empty):before {
+    content: '';
+    width: 100%;
+    height: 1px;
+    background-color: #666;
+    position: absolute;
+    top: 25px;
+}
