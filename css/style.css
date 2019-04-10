@@ -145,16 +145,36 @@ button.complete:hover i, .complete:focus i {
     color: #25b99a;
 }
 
-ul.todo#completed:not(:empty) {
+ul.todo#completed {
     position: relative;
     padding-top: 50px;
 }
 
-ul.todo#completed:not(:empty):before {
+ul.todo#completed:before {
     content: '';
-    width: 100%;
+    width: 45%;
     height: 1px;
     background-color: #666;
     position: absolute;
     top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+ul.todo#todo:empty:after {
+    content: 'You have nothing to do!';
+    margin-top: 15px;
+}
+
+ul.todo#completed:empty:after {
+    content: 'You have yet to complete any tasks.';
+}
+
+ul.todo#todo:after,
+ul.todo#completed:after {
+    width: 100%;
+    display: block;
+    text-align: center;
+    font-size: 0.8em;
+    color: #aaa;
 }
