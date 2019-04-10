@@ -22,6 +22,21 @@ document.getElementById('add').addEventListener('click', function() {
     }
 });
 
+document.getElementById('task').addEventListener('keydown', function(e) {
+    var value = this.value;
+    if (e.code === 'Enter' && value) {
+        addItem(value);
+    }
+});
+
+function addItem(value) {
+    addTodoItem(value);
+    document.getElementById('task').value = '';
+
+    data.todo.push(value);
+    dataObjectUpdated();
+}
+
 function renderTodoList() {
     if (!data.todo.length && !data.completed.length) {
         return;
