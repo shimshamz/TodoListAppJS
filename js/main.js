@@ -1,3 +1,8 @@
+var data = {
+    todo: [],
+    completed: []
+};
+
 //Remove and complete icons
 var removeIcon = '<i class="far fa-trash-alt"></i>';
 var completeIcon = '<i class="far fa-check-circle"></i>';
@@ -9,12 +14,22 @@ document.getElementById('add').addEventListener('click', function() {
     if (value) {
         addTodoItem(value);
         document.getElementById('task').value = '';
+
+        data.todo.push(value);
     }
 });
 
 function removeTodoItem() {
     var item = this.parentNode.parentNode;
     var parent = item.parentNode;
+    var id = parent.id;
+    var value =item.innerText;
+
+    if (id == 'todo') {
+        data.todo.splice(data.todo.indexOf(value), 1);
+    } else {
+        data.completed.splice(data.todo.indexOf(value), 1);
+    }
 
     parent.removeChild(item);
 }
@@ -23,6 +38,15 @@ function completeTodoItem() {
     var item = this.parentNode.parentNode;
     var parent = item.parentNode;
     var id = parent.id;
+    var value =item.innerText;
+
+    if (id == 'todo') {
+        data.todo.splice(data.todo.indexOf(value), 1);
+        data.completed.push(value);
+    } else {
+        data.completed.splice(data.todo.indexOf(value), 1);
+        data.todo.push(value);
+    }
 
     // Check if the item should be added to completed
     // or be added to the todo list
