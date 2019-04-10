@@ -1,4 +1,4 @@
-var data = {
+var data = (localStorage.getItem('todoList')) ? JSON.parse(localStorage.getItem('todoList')) : {
     todo: [],
     completed: []
 };
@@ -6,6 +6,8 @@ var data = {
 //Remove and complete icons
 var removeIcon = '<i class="far fa-trash-alt"></i>';
 var completeIcon = '<i class="far fa-check-circle"></i>';
+
+renderTodoList();
 
 // User clicked on the add button
 // if there is any text inside the task field, add that task to the list
@@ -16,8 +18,29 @@ document.getElementById('add').addEventListener('click', function() {
         document.getElementById('task').value = '';
 
         data.todo.push(value);
+        dataObjectUpdated();
     }
 });
+
+function renderTodoList() {
+    if (!data.todo.length && !data.completed.length) {
+        return;
+    }
+
+    for (var i = 0; i < data.todo.length; i++) {
+        var value = data.todo[i];
+        addTodoItem(value);
+    }
+
+    for (var j = 0; j < data.completed.length; j++) {
+        var value = data.completed[j];
+        addTodoItem(value, true);
+    }
+}
+
+function dataObjectUpdated() {
+    localStorage.setItem('todoList', JSON.stringify(data));
+}
 
 function removeTodoItem() {
     var item = this.parentNode.parentNode;
@@ -30,6 +53,7 @@ function removeTodoItem() {
     } else {
         data.completed.splice(data.todo.indexOf(value), 1);
     }
+    dataObjectUpdated();
 
     parent.removeChild(item);
 }
@@ -44,9 +68,10 @@ function completeTodoItem() {
         data.todo.splice(data.todo.indexOf(value), 1);
         data.completed.push(value);
     } else {
-        data.completed.splice(data.todo.indexOf(value), 1);
+        data.completed.splice(data.completed.indexOf(value), 1);
         data.todo.push(value);
     }
+    dataObjectUpdated();
 
     // Check if the item should be added to completed
     // or be added to the todo list
@@ -57,8 +82,8 @@ function completeTodoItem() {
 }
 
 //Adds a new item to the todo list
-function addTodoItem(text) {
-var list = document.getElementById('todo');
+function addTodoItem(text, completed) {
+var list = (completed) ? document.getElementById('completed') : document.getElementById('todo');
 
     var item = document.createElement('li');
     item.innerText = text;
